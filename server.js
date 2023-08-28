@@ -31,6 +31,11 @@ app.post('/api/notes', (request, response) => {
 });
 
 app.delete('/api/notes/:id', (request, response) => {
+    const id = request.params.id;
+    const notes = JSON.parse(fs.readFileSync(__dirname + '/db/db.json', 'utf8'));
+    const newNotes = notes.filter(note => note.id !== id);
+    fs.writeFileSync(__dirname + '/db/db.json', JSON.stringify(newNotes));
+    response.json(newNotes);
 });
 
 app.listen(3000, () => {
