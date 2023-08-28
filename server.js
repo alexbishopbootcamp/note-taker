@@ -7,13 +7,16 @@ const app = express();
 app.use(express.static('public'));
 
 app.get('/notes', (request, response) => {
+    response.sendFile(__dirname + '/public/notes.html');
 });
 
 app.get('/api/notes', (request, response) => {
+    response.sendFile(__dirname + '/db/db.json');
 }
 );
 
 app.get('*', (request, response) => {
+    response.sendFile(__dirname + '/public/index.html');
 }
 );
 
