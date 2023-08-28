@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const fs = require('fs');
+const crypto = require('crypto');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.get('*', (request, response) => {
 app.post('/api/notes', (request, response) => {
     const notes = JSON.parse(fs.readFileSync(__dirname + '/db/db.json', 'utf8'));
     const newNote = request.body;
+    newNote.id = crypto.createHash('sha256').update(JSON.stringify(newNote)).digest('hex');;
     notes.push(newNote);
     fs.writeFileSync(__dirname + '/db/db.json', JSON.stringify(notes));
     response.json(notes);
